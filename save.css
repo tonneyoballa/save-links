@@ -1,3 +1,6 @@
+body{
+  background-image: url("url.jpeg");
+}
 .newsletter-form {
   max-width: 400px;
   margin: 0 auto;
@@ -8,7 +11,8 @@
 }
 
 .heading {
-  font-weight: bold;
+  font-family: "Quicksand", sans-serif;
+  font-weight: 300;
   font-size: 20px;
 }
 
@@ -20,12 +24,15 @@
 
 .newsletter-form label {
   display: block;
-  font-weight: bold;
+  font-family: "Cormorant Garamond", serif;
+  font-weight: 300;  
   color: #666;
   margin-bottom: 10px;
 }
 
 .newsletter-form input[type="url"] {
+  font-family: "Quicksand", sans-serif;
+  font-weight: 300;
   width: 300px;
   padding: 10px;
   margin-bottom: 10px;
@@ -46,4 +53,18 @@
 
 .newsletter-form input[type="submit"]:hover {
   background-color: #000;
+}
+.link-list {
+  list-style-type: none;
+  padding: 0;
+  margin: 0;
+}
+
+.link-list li {
+  margin-bottom: 8px;
+}
+
+.carousel-item {
+  text-align: center;
+  padding: 15px;
 }
