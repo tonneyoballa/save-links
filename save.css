@@ -1,8 +1,3 @@
-body{
-  background-image: url("url.jpeg");
-  background-repeat: no-repeat;
-  background-size: cover;
-}
 .newsletter-form {
   max-width: 400px;
   margin: 0 auto;
