@@ -1,21 +1,21 @@
 {
     "manifest_version": 3,
-    "name": "Link Saver",
+    "name": "Save Links",
     "version": "1.0",
-    "description": "A Chrome extension to save and organize your favorite links.",
+    "description": "A Chrome extension to save links.",
     "action": {
       "default_popup": "save.html"
       }
     ,
-    "permissions": [
-      "storage",
-      "tabs"
-    ],
-    "content_scripts": [
-      {
-        "matches": ["<all_urls>"],
-        "js": ["script.js"]
+          "default_icon": {
+        "url.jpeg" :"url.jpeg"
       }
-    ]
+    ,
+    "permissions": ["storage", "tabs"],
+    "icons": {
+      "16": "url.jpeg",
+      "48": "url.jpeg",
+      "128": "url.jpeg"
+    }
   }
   
