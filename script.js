@@ -4,7 +4,6 @@ document.addEventListener("DOMContentLoaded", function () {
   const carouselLinks = document.getElementById("carousel-links");
   const linksPerSlide = 5;
 
-  // Function to add links to a carousel slide
   function addLinksToSlide(links) {
     const slide = document.createElement("div");
     slide.classList.add("carousel-item");
@@ -26,7 +25,6 @@ document.addEventListener("DOMContentLoaded", function () {
     carouselLinks.appendChild(slide);
   }
 
-  // Load and display saved links in slides
   chrome.storage.sync.get({ savedLinks: [] }, function (data) {
     const savedLinks = data.savedLinks;
     for (let i = 0; i < savedLinks.length; i += linksPerSlide) {
@@ -34,13 +32,11 @@ document.addEventListener("DOMContentLoaded", function () {
       addLinksToSlide(linksChunk);
     }
 
-    // Set the first slide to active
     if (carouselLinks.firstElementChild) {
       carouselLinks.firstElementChild.classList.add("active");
     }
   });
 
-  // Save a new link and update the carousel
   form.addEventListener("submit", function (event) {
     event.preventDefault();
     const url = urlInput.value;
@@ -52,8 +48,7 @@ document.addEventListener("DOMContentLoaded", function () {
           alert("Link saved successfully!");
           urlInput.value = "";
 
-          // Refresh carousel to show the new link in the slides
-          carouselLinks.innerHTML = "";  // Clear the carousel
+          carouselLinks.innerHTML = "";  
           for (let i = 0; i < updatedLinks.length; i += linksPerSlide) {
             const linksChunk = updatedLinks.slice(i, i + linksPerSlide);
             addLinksToSlide(linksChunk);
