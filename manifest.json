@@ -1,21 +1,24 @@
 {
-    "manifest_version": 3,
-    "name": "Save Links",
-    "version": "1.0",
-    "description": "A Chrome extension to save links.",
-    "action": {
-      "default_popup": "save.html"
-      }
-    ,
-          "default_icon": {
-        "url.jpeg" :"url.jpeg"
-      }
-    ,
-    "permissions": ["storage", "tabs"],
-    "icons": {
-      "16": "url.jpeg",
-      "48": "url.jpeg",
-      "128": "url.jpeg"
-    }
+  "manifest_version": 3,
+  "name": "Save Links",
+  "version": "1.0",
+  "description": "A Chrome extension to save links.",
+  "action": {
+    "default_popup": "save.html"
+  },
+  "permissions": ["storage", "tabs", "identity"],
+  "icons": {
+    "16": "url.jpeg",
+    "48": "url.jpeg",
+    "128": "url.jpeg"
+  },
+  "oauth2": {
+    "client_id": "YOUR_CLIENT_ID.apps.googleusercontent.com",
+    "scopes": [
+      "https://www.googleapis.com/auth/spreadsheets"
+    ]
+  },
+  "background": {
+    "service_worker": "background.js"
   }
-  
+}
