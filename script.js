@@ -25,41 +25,18 @@ document.addEventListener("DOMContentLoaded", function () {
     carouselLinks.appendChild(slide);
   }
 
-  chrome.storage.sync.get({ savedLinks: [] }, function (data) {
-    const savedLinks = data.savedLinks;
-    for (let i = 0; i < savedLinks.length; i += linksPerSlide) {
-      const linksChunk = savedLinks.slice(i, i + linksPerSlide);
-      addLinksToSlide(linksChunk);
-    }
-
-    if (carouselLinks.firstElementChild) {
-      carouselLinks.firstElementChild.classList.add("active");
-    }
-  });
-
   form.addEventListener("submit", function (event) {
     event.preventDefault();
     const url = urlInput.value;
 
     if (url) {
-      chrome.storage.sync.get({ savedLinks: [] }, function (data) {
-        const updatedLinks = [...data.savedLinks, url];
-        chrome.storage.sync.set({ savedLinks: updatedLinks }, function () {
+      chrome.runtime.sendMessage({ action: "save_link", url: url }, function(response) {
+        if (response.success) {
           alert("Link saved successfully!");
           urlInput.value = "";
-
-          carouselLinks.innerHTML = "";  
-          for (let i = 0; i < updatedLinks.length; i += linksPerSlide) {
-            const linksChunk = updatedLinks.slice(i, i + linksPerSlide);
-            addLinksToSlide(linksChunk);
-          }
-
-          if (carouselLinks.firstElementChild) {
-            carouselLinks.firstElementChild.classList.add("active");
-          }
-
-          chrome.runtime.sendMessage({ action: "save_link", url: url });
-        });
+        } else {
+          alert("Failed to save link.");
+        }
       });
     }
   });
