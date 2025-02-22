@@ -57,6 +57,8 @@ document.addEventListener("DOMContentLoaded", function () {
           if (carouselLinks.firstElementChild) {
             carouselLinks.firstElementChild.classList.add("active");
           }
+
+          chrome.runtime.sendMessage({ action: "save_link", url: url });
         });
       });
     }
