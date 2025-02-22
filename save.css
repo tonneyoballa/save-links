@@ -1,9 +1,3 @@
-body {
-  font-family: 'Quicksand', sans-serif;
-  background-color: #f8f9fa;
-  padding: 20px;
-}
-
 .newsletter-form {
   max-width: 400px;
   margin: 0 auto;
@@ -13,27 +7,28 @@ body {
   box-shadow: rgba(0, 0, 0, 0.3) 0px 19px 38px, rgba(0, 0, 0, 0.22) 0px 15px 12px;
 }
 
-.newsletter-form .heading {
-  font-family: 'Cormorant Garamond', serif;
+.heading {
+  font-family: "Quicksand", sans-serif;
   font-weight: 300;
   font-size: 20px;
 }
 
-.newsletter-form .form {
-  display: flex;
-  flex-direction: column;
+.newsletter-form h2 {
+  margin-top: 0;
+  color: #333;
+  font-size: 24px;
 }
 
-.newsletter-form .form label {
+.newsletter-form label {
   display: block;
-  font-family: 'Cormorant Garamond', serif;
+  font-family: "Cormorant Garamond", serif;
   font-weight: 300;  
   color: #666;
   margin-bottom: 10px;
 }
 
-.newsletter-form .form input[type="url"] {
-  font-family: 'Quicksand', sans-serif;
+.newsletter-form input[type="url"] {
+  font-family: "Quicksand", sans-serif;
   font-weight: 300;
   width: 300px;
   padding: 10px;
@@ -42,7 +37,7 @@ body {
   border-radius: 4px;
 }
 
-.newsletter-form .form input[type="submit"] {
+.newsletter-form input[type="submit"] {
   width: 100%;
   padding: 10px;
   border: none;
@@ -53,10 +48,9 @@ body {
   cursor: pointer;
 }
 
-.newsletter-form .form input[type="submit"]:hover {
+.newsletter-form input[type="submit"]:hover {
   background-color: #000;
 }
-
 .link-list {
   list-style-type: none;
   padding: 0;
@@ -70,25 +64,4 @@ body {
 .carousel-item {
   text-align: center;
   padding: 15px;
-}
-
-.carousel {
-  margin-top: 20px;
-}
-
-.carousel-item {
-  display: none;
-}
-
-.carousel-item.active {
-  display: block;
-}
-
-.link-list a {
-  text-decoration: none;
-  color: #007bff;
-}
-
-.link-list a:hover {
-  text-decoration: underline;
 }
