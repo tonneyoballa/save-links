@@ -6,7 +6,7 @@ document.addEventListener("DOMContentLoaded", function () {
   const linksPerSlide = 5;
 
   // Load links from local storage and render
-  const savedLinks = JSON.parse(localStorage.getItem("savedLinks")) || [];
+  let savedLinks = JSON.parse(localStorage.getItem("savedLinks")) || [];
   buildCarousel(savedLinks);
 
   // Handle form submission
@@ -47,16 +47,31 @@ document.addEventListener("DOMContentLoaded", function () {
 
     links.forEach(link => {
       const listItem = document.createElement("li");
+
       const linkElement = document.createElement("a");
       linkElement.href = link;
       linkElement.textContent = link;
       linkElement.target = "_blank";
+
+      const deleteBtn = document.createElement("button");
+      deleteBtn.textContent = "🗑️";
+      deleteBtn.style.marginLeft = "10px";
+      deleteBtn.onclick = () => deleteLink(link);
+
       listItem.appendChild(linkElement);
+      listItem.appendChild(deleteBtn);
       list.appendChild(listItem);
     });
 
     slide.appendChild(list);
     carouselLinks.appendChild(slide);
+  }
+
+  // Delete link and update local storage
+  function deleteLink(linkToDelete) {
+    savedLinks = savedLinks.filter(link => link !== linkToDelete);
+    localStorage.setItem("savedLinks", JSON.stringify(savedLinks));
+    buildCarousel(savedLinks);
   }
 
   // Show status feedback (optional improvement)
