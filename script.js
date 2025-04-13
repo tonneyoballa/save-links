@@ -1,3 +1,4 @@
+// script.js (Local Storage Version)
 document.addEventListener("DOMContentLoaded", function () {
   const form = document.querySelector(".form");
   const urlInput = document.getElementById("url");
@@ -18,7 +19,11 @@ document.addEventListener("DOMContentLoaded", function () {
       localStorage.setItem("savedLinks", JSON.stringify(savedLinks));
       buildCarousel(savedLinks);
       urlInput.value = "";
-      showStatus("✅ Link saved successfully.");
+      alert("✅ Link saved successfully!");
+
+      setTimeout(() => {
+        window.close(); // Close the popup after alert
+      }, 300);
     }
   });
 
