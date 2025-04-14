@@ -1,16 +1,32 @@
-.newsletter-form {
-  max-width: 400px;
-  margin: 0 auto;
-  padding: 20px;
-  background-color: #f7f7f7;
+/* save.css – Cleaned and polished layout */
+
+/* Overall popup layout */
+body {
+  width: 350px;
+  height: 450px;
+  margin: 0;
+  padding: 0;
   font-family: Arial, sans-serif;
-  box-shadow: rgba(0, 0, 0, 0.3) 0px 19px 38px, rgba(0, 0, 0, 0.22) 0px 15px 12px;
+  background-color: #f9f9f9;
+  display: flex;
+  align-items: center;
+  justify-content: center;
+}
+
+.newsletter-form {
+  width: 100%;
+  padding: 20px;
+  background-color: #ffffff;
+  border-radius: 12px;
+  box-shadow: rgba(0, 0, 0, 0.1) 0px 4px 12px;
 }
 
 .heading {
   font-family: "Quicksand", sans-serif;
-  font-weight: 300;
-  font-size: 20px;
+  font-weight: 600;
+  font-size: 18px;
+  margin-bottom: 12px;
+  text-align: center;
 }
 
 .newsletter-form h2 {
@@ -22,35 +38,37 @@
 .newsletter-form label {
   display: block;
   font-family: "Cormorant Garamond", serif;
-  font-weight: 300;  
+  font-weight: 400;  
   color: #666;
-  margin-bottom: 10px;
+  margin-bottom: 8px;
 }
 
 .newsletter-form input[type="url"] {
   font-family: "Quicksand", sans-serif;
-  font-weight: 300;
-  width: 300px;
+  font-weight: 400;
+  width: 100%;
   padding: 10px;
-  margin-bottom: 10px;
+  margin-bottom: 12px;
   border: 1px solid #ccc;
-  border-radius: 4px;
+  border-radius: 6px;
 }
 
 .newsletter-form input[type="submit"] {
   width: 100%;
   padding: 10px;
   border: none;
-  border-radius: 4px;
+  border-radius: 6px;
   background-color: #000;
   color: #fff;
   font-weight: bold;
   cursor: pointer;
+  transition: background-color 0.2s ease;
 }
 
 .newsletter-form input[type="submit"]:hover {
-  background-color: #000;
+  background-color: #333;
 }
+
 .link-list {
   list-style-type: none;
   padding: 0;
@@ -58,10 +76,45 @@
 }
 
 .link-list li {
-  margin-bottom: 8px;
+  margin-bottom: 10px;
+  display: flex;
+  align-items: center;
+  justify-content: space-between;
+  background-color: #f2f2f2;
+  padding: 6px 10px;
+  border-radius: 5px;
+}
+
+.link-list a {
+  color: #007bff;
+  text-decoration: none;
+  word-break: break-all;
+  font-size: 14px;
+  flex-grow: 1;
+}
+
+.link-list button {
+  background: none;
+  border: none;
+  cursor: pointer;
+  padding: 0;
+}
+
+.link-list svg {
+  fill: #dc3545;
+  transition: transform 0.2s;
+}
+
+.link-list svg:hover {
+  transform: scale(1.2);
 }
 
 .carousel-item {
   text-align: center;
-  padding: 15px;
+  padding-top: 10px;
+}
+
+.carousel-control-prev,
+.carousel-control-next {
+  display: none !important;
 }

@@ -54,8 +54,15 @@ document.addEventListener("DOMContentLoaded", function () {
       linkElement.target = "_blank";
 
       const deleteBtn = document.createElement("button");
-      deleteBtn.textContent = `✖️`;
+      deleteBtn.innerHTML = `
+        <svg xmlns="http://www.w3.org/2000/svg" width="16" height="16" fill="currentColor" viewBox="0 0 24 24">
+          <path d="M3 6l3 18h12l3-18H3zm5 16l-2-14h2v14zm4 0V8h2v14h-2zm4 0l-2-14h2l2 14zM5 4V2h14v2h5v2H0V4h5z"/>
+        </svg>
+      `;
       deleteBtn.style.marginLeft = "10px";
+      deleteBtn.style.background = "none";
+      deleteBtn.style.border = "none";
+      deleteBtn.style.cursor = "pointer";
       deleteBtn.onclick = () => deleteLink(link);
 
       listItem.appendChild(linkElement);
