@@ -5,6 +5,15 @@ document.addEventListener("DOMContentLoaded", function () {
   const carouselLinks = document.getElementById("carousel-links");
   const linksPerSlide = 5;
 
+  // Create empty message element
+  const emptyMessage = document.createElement("p");
+  emptyMessage.textContent = "No links saved yet. Add one above 👆";
+  emptyMessage.style.textAlign = "center";
+  emptyMessage.style.color = "#777";
+  emptyMessage.style.fontSize = "14px";
+  emptyMessage.style.marginTop = "20px";
+  carouselLinks.parentElement.insertBefore(emptyMessage, carouselLinks);
+
   // Load links from local storage and render
   let savedLinks = JSON.parse(localStorage.getItem("savedLinks")) || [];
   buildCarousel(savedLinks);
@@ -30,6 +39,8 @@ document.addEventListener("DOMContentLoaded", function () {
   // Build carousel slides from an array of links
   function buildCarousel(links) {
     carouselLinks.innerHTML = ""; // Clear previous content
+    emptyMessage.style.display = links.length === 0 ? "block" : "none";
+
     for (let i = 0; i < links.length; i += linksPerSlide) {
       const chunk = links.slice(i, i + linksPerSlide);
       addLinksToSlide(chunk, i === 0);
