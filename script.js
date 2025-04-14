@@ -63,7 +63,7 @@ document.addEventListener("DOMContentLoaded", function () {
           buildCarousel(savedLinks);
           urlInput.value = "";
           showToast("✅ Link saved successfully!", "success");
-          setTimeout(() => window.close(), 300);
+          setTimeout(() => window.close(), 800);
         })
         .catch(error => {
           console.error("Error saving to Airtable:", error);
@@ -148,7 +148,7 @@ document.addEventListener("DOMContentLoaded", function () {
     toast.style.boxShadow = "0 4px 8px rgba(0, 0, 0, 0.2)";
     toast.style.zIndex = "9999";
     toast.style.opacity = "0";
-    toast.style.transition = "opacity 0.3s ease";
+    toast.style.transition = "opacity .015s ease";
 
     document.body.appendChild(toast);
     requestAnimationFrame(() => toast.style.opacity = "1");
