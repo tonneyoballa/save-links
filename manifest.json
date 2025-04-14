@@ -6,7 +6,7 @@
   "action": {
     "default_popup": "save.html",
       "default_icon": {
-      "16": "icon16.png",
+      "24": "icon24.png",
       "48": "icon48.png",
       "128": "icon128.png"
     }
@@ -16,7 +16,7 @@
     "https://api.airtable.com/*"
   ],
   "icons": {
-    "16": "icon16.png",
+    "24": "icon24.png",
     "48": "icon48.png",
     "128": "icon128.png"
   },
