@@ -7,7 +7,7 @@ document.addEventListener("DOMContentLoaded", function () {
 
   const AIRTABLE_API_KEY = "patlW2b1iPeWU9RZL.8831284c7b1b5322f411c984e101be6000ef0c64da4cc7b695ca60d08a98ff99";
   const BASE_ID = "apphIDAkVv7qdhiJJ";
-  const TABLE_NAME = "Saved Links";
+  const TABLE_NAME = "SavedLinks";
 
   // Create empty message element
   const emptyMessage = document.createElement("p");
@@ -62,12 +62,12 @@ document.addEventListener("DOMContentLoaded", function () {
           });
           buildCarousel(savedLinks);
           urlInput.value = "";
-          showToast("✅ Link saved successfully!", "success");
+          alert("✅ Link saved successfully!");
           setTimeout(() => window.close(), 300);
         })
         .catch(error => {
           console.error("Error saving to Airtable:", error);
-          showToast("❌ Failed to save link.", "error");
+          alert("❌ Failed to save link.");
         });
     }
   });
@@ -133,29 +133,12 @@ document.addEventListener("DOMContentLoaded", function () {
       .catch(error => console.error("Error deleting from Airtable:", error));
   }
 
-  function showToast(message, type) {
-    const toast = document.createElement("div");
-    toast.textContent = message;
-    toast.style.position = "fixed";
-    toast.style.bottom = "20px";
-    toast.style.left = "50%";
-    toast.style.transform = "translateX(-50%)";
-    toast.style.padding = "12px 20px";
-    toast.style.borderRadius = "8px";
-    toast.style.fontSize = "14px";
-    toast.style.color = "#fff";
-    toast.style.backgroundColor = type === "success" ? "#28a745" : "#dc3545";
-    toast.style.boxShadow = "0 4px 8px rgba(0, 0, 0, 0.2)";
-    toast.style.zIndex = "9999";
-    toast.style.opacity = "0";
-    toast.style.transition = "opacity 0.3s ease";
-
-    document.body.appendChild(toast);
-    requestAnimationFrame(() => toast.style.opacity = "1");
-
-    setTimeout(() => {
-      toast.style.opacity = "0";
-      toast.addEventListener("transitionend", () => toast.remove());
-    }, 2000);
+  function showStatus(message) {
+    const status = document.createElement("div");
+    status.textContent = message;
+    status.style.padding = "10px";
+    status.style.color = "green";
+    form.insertAdjacentElement("afterend", status);
+    setTimeout(() => status.remove(), 2000);
   }
 });
