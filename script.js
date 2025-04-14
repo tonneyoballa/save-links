@@ -2,7 +2,6 @@
 document.addEventListener("DOMContentLoaded", function () {
   const form = document.querySelector(".form");
   const urlInput = document.getElementById("url");
-  const categorySelect = document.getElementById("category");
   const carouselLinks = document.getElementById("carousel-links");
   const linksPerSlide = 5;
 
@@ -31,7 +30,6 @@ document.addEventListener("DOMContentLoaded", function () {
     .then(data => {
       savedLinks = data.records.map(record => ({
         url: record.fields.url,
-        category: record.fields.category,
         id: record.id
       }));
       buildCarousel(savedLinks);
@@ -42,9 +40,8 @@ document.addEventListener("DOMContentLoaded", function () {
   form.addEventListener("submit", function (event) {
     event.preventDefault();
     const url = urlInput.value.trim();
-    const category = categorySelect.value;
 
-    if (url && category) {
+    if (url) {
       fetch(`https://api.airtable.com/v0/${BASE_ID}/${TABLE_NAME}`, {
         method: "POST",
         headers: {
@@ -53,8 +50,7 @@ document.addEventListener("DOMContentLoaded", function () {
         },
         body: JSON.stringify({
           fields: {
-            url: url,
-            category: category
+            url: url
           }
         })
       })
@@ -62,12 +58,10 @@ document.addEventListener("DOMContentLoaded", function () {
         .then(data => {
           savedLinks.push({
             url: data.fields.url,
-            category: data.fields.category,
             id: data.id
           });
           buildCarousel(savedLinks);
           urlInput.value = "";
-          categorySelect.value = "";
           alert("✅ Link saved successfully!");
           setTimeout(() => window.close(), 300);
         })
@@ -104,12 +98,6 @@ document.addEventListener("DOMContentLoaded", function () {
       linkElement.textContent = item.url;
       linkElement.target = "_blank";
 
-      const categoryBadge = document.createElement("span");
-      categoryBadge.textContent = ` (${item.category})`;
-      categoryBadge.style.color = "#888";
-      categoryBadge.style.fontSize = "12px";
-      categoryBadge.style.marginLeft = "5px";
-
       const deleteBtn = document.createElement("button");
       deleteBtn.innerHTML = `
         <svg xmlns="http://www.w3.org/2000/svg" width="16" height="16" fill="currentColor" viewBox="0 0 24 24">
@@ -123,7 +111,6 @@ document.addEventListener("DOMContentLoaded", function () {
       deleteBtn.onclick = () => deleteLink(item.id);
 
       listItem.appendChild(linkElement);
-      listItem.appendChild(categoryBadge);
       listItem.appendChild(deleteBtn);
       list.appendChild(listItem);
     });
