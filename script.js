@@ -9,7 +9,7 @@ document.addEventListener("DOMContentLoaded", function () {
   const emptyMessage = document.createElement("p");
   emptyMessage.textContent = "No links saved yet. Add one above 👆";
   emptyMessage.style.textAlign = "center";
-  emptyMessage.style.color = "#ADEBB3";
+  emptyMessage.style.color = "#A2574F";
   emptyMessage.style.fontSize = "14px";
   emptyMessage.style.marginTop = "20px";
   carouselLinks.parentElement.insertBefore(emptyMessage, carouselLinks);
