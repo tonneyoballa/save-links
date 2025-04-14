@@ -2,6 +2,7 @@
 document.addEventListener("DOMContentLoaded", function () {
   const form = document.querySelector(".form");
   const urlInput = document.getElementById("url");
+  const categorySelect = document.getElementById("category");
   const carouselLinks = document.getElementById("carousel-links");
   const linksPerSlide = 5;
 
@@ -9,7 +10,7 @@ document.addEventListener("DOMContentLoaded", function () {
   const emptyMessage = document.createElement("p");
   emptyMessage.textContent = "No links saved yet. Add one above 👆";
   emptyMessage.style.textAlign = "center";
-  emptyMessage.style.color = "#A2574F";
+  emptyMessage.style.color = "#777";
   emptyMessage.style.fontSize = "14px";
   emptyMessage.style.marginTop = "20px";
   carouselLinks.parentElement.insertBefore(emptyMessage, carouselLinks);
@@ -22,12 +23,14 @@ document.addEventListener("DOMContentLoaded", function () {
   form.addEventListener("submit", function (event) {
     event.preventDefault();
     const url = urlInput.value.trim();
+    const category = categorySelect.value;
 
-    if (url) {
-      savedLinks.push(url);
+    if (url && category) {
+      savedLinks.push({ url, category });
       localStorage.setItem("savedLinks", JSON.stringify(savedLinks));
       buildCarousel(savedLinks);
       urlInput.value = "";
+      categorySelect.value = "";
       alert("✅ Link saved successfully!");
 
       setTimeout(() => {
@@ -56,13 +59,19 @@ document.addEventListener("DOMContentLoaded", function () {
     const list = document.createElement("ul");
     list.classList.add("link-list");
 
-    links.forEach(link => {
+    links.forEach(item => {
       const listItem = document.createElement("li");
 
       const linkElement = document.createElement("a");
-      linkElement.href = link;
-      linkElement.textContent = link;
+      linkElement.href = item.url;
+      linkElement.textContent = item.url;
       linkElement.target = "_blank";
+
+      const categoryBadge = document.createElement("span");
+      categoryBadge.textContent = ` (${item.category})`;
+      categoryBadge.style.color = "#888";
+      categoryBadge.style.fontSize = "12px";
+      categoryBadge.style.marginLeft = "5px";
 
       const deleteBtn = document.createElement("button");
       deleteBtn.innerHTML = `
@@ -74,9 +83,10 @@ document.addEventListener("DOMContentLoaded", function () {
       deleteBtn.style.background = "none";
       deleteBtn.style.border = "none";
       deleteBtn.style.cursor = "pointer";
-      deleteBtn.onclick = () => deleteLink(link);
+      deleteBtn.onclick = () => deleteLink(item);
 
       listItem.appendChild(linkElement);
+      listItem.appendChild(categoryBadge);
       listItem.appendChild(deleteBtn);
       list.appendChild(listItem);
     });
@@ -87,7 +97,7 @@ document.addEventListener("DOMContentLoaded", function () {
 
   // Delete link and update local storage
   function deleteLink(linkToDelete) {
-    savedLinks = savedLinks.filter(link => link !== linkToDelete);
+    savedLinks = savedLinks.filter(item => item.url !== linkToDelete.url || item.category !== linkToDelete.category);
     localStorage.setItem("savedLinks", JSON.stringify(savedLinks));
     buildCarousel(savedLinks);
   }
