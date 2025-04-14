@@ -4,18 +4,24 @@
   "version": "1.0",
   "description": "A Chrome extension to save links.",
   "action": {
-    "default_popup": "save.html"
+    "default_popup": "save.html",
+      "default_icon": {
+      "16": "icon16.png",
+      "48": "icon48.png",
+      "128": "icon128.png"
+    }
   },
   "permissions": ["storage", "tabs", "identity"],
   "host_permissions": [
     "https://api.airtable.com/*"
   ],
   "icons": {
-    "16": "url.jpeg",
-    "48": "url.jpeg",
-    "128": "url.jpeg"
+    "16": "icon16.jpeg",
+    "48": "icon48.jpeg",
+    "128": "icon128.jpeg"
   },
   "background": {
     "service_worker": "background.js"
-  }
+  },
+  "permissions":["storage","activeTab","scripting"]
 }
