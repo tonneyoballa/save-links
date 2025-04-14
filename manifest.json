@@ -7,16 +7,13 @@
     "default_popup": "save.html"
   },
   "permissions": ["storage", "tabs", "identity"],
+  "host_permissions": [
+    "https://api.airtable.com/*"
+  ],
   "icons": {
     "16": "url.jpeg",
     "48": "url.jpeg",
     "128": "url.jpeg"
-  },
-  "oauth2": {
-    "client_id": "YOUR_CLIENT_ID.apps.googleusercontent.com",
-    "scopes": [
-      "https://www.googleapis.com/auth/spreadsheets"
-    ]
   },
   "background": {
     "service_worker": "background.js"
