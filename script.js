@@ -54,7 +54,7 @@ document.addEventListener("DOMContentLoaded", function () {
       linkElement.target = "_blank";
 
       const deleteBtn = document.createElement("button");
-      deleteBtn.textContent = `"✖️"`;
+      deleteBtn.textContent = `✖️`;
       deleteBtn.style.marginLeft = "10px";
       deleteBtn.onclick = () => deleteLink(link);
 
