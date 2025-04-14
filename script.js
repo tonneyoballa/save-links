@@ -7,7 +7,7 @@ document.addEventListener("DOMContentLoaded", function () {
 
   const AIRTABLE_API_KEY = "patlW2b1iPeWU9RZL.8831284c7b1b5322f411c984e101be6000ef0c64da4cc7b695ca60d08a98ff99";
   const BASE_ID = "apphIDAkVv7qdhiJJ";
-  const TABLE_NAME = "Saved Links";
+  const TABLE_NAME = "SavedLinks";
 
   // Create empty message element
   const emptyMessage = document.createElement("p");
