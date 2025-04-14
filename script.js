@@ -1,10 +1,14 @@
-// script.js (Local Storage Version)
+// script.js (Airtable Integration Version)
 document.addEventListener("DOMContentLoaded", function () {
   const form = document.querySelector(".form");
   const urlInput = document.getElementById("url");
   const categorySelect = document.getElementById("category");
   const carouselLinks = document.getElementById("carousel-links");
   const linksPerSlide = 5;
+
+  const AIRTABLE_API_KEY = "patlW2b1iPeWU9RZL.8831284c7b1b5322f411c984e101be6000ef0c64da4cc7b695ca60d08a98ff99";
+  const BASE_ID = "apphIDAkVv7qdhiJJ";
+  const TABLE_NAME = "Saved Links";
 
   // Create empty message element
   const emptyMessage = document.createElement("p");
@@ -15,9 +19,24 @@ document.addEventListener("DOMContentLoaded", function () {
   emptyMessage.style.marginTop = "20px";
   carouselLinks.parentElement.insertBefore(emptyMessage, carouselLinks);
 
-  // Load links from local storage and render
-  let savedLinks = JSON.parse(localStorage.getItem("savedLinks")) || [];
-  buildCarousel(savedLinks);
+  let savedLinks = [];
+
+  // Fetch existing links from Airtable on load
+  fetch(`https://api.airtable.com/v0/${BASE_ID}/${TABLE_NAME}`, {
+    headers: {
+      Authorization: `Bearer ${AIRTABLE_API_KEY}`
+    }
+  })
+    .then(response => response.json())
+    .then(data => {
+      savedLinks = data.records.map(record => ({
+        url: record.fields.url,
+        category: record.fields.category,
+        id: record.id
+      }));
+      buildCarousel(savedLinks);
+    })
+    .catch(error => console.error("Error loading data from Airtable:", error));
 
   // Handle form submission
   form.addEventListener("submit", function (event) {
@@ -26,22 +45,41 @@ document.addEventListener("DOMContentLoaded", function () {
     const category = categorySelect.value;
 
     if (url && category) {
-      savedLinks.push({ url, category });
-      localStorage.setItem("savedLinks", JSON.stringify(savedLinks));
-      buildCarousel(savedLinks);
-      urlInput.value = "";
-      categorySelect.value = "";
-      alert("✅ Link saved successfully!");
-
-      setTimeout(() => {
-        window.close(); // Close the popup after alert
-      }, 300);
+      fetch(`https://api.airtable.com/v0/${BASE_ID}/${TABLE_NAME}`, {
+        method: "POST",
+        headers: {
+          Authorization: `Bearer ${AIRTABLE_API_KEY}`,
+          "Content-Type": "application/json"
+        },
+        body: JSON.stringify({
+          fields: {
+            url: url,
+            category: category
+          }
+        })
+      })
+        .then(response => response.json())
+        .then(data => {
+          savedLinks.push({
+            url: data.fields.url,
+            category: data.fields.category,
+            id: data.id
+          });
+          buildCarousel(savedLinks);
+          urlInput.value = "";
+          categorySelect.value = "";
+          alert("✅ Link saved successfully!");
+          setTimeout(() => window.close(), 300);
+        })
+        .catch(error => {
+          console.error("Error saving to Airtable:", error);
+          alert("❌ Failed to save link.");
+        });
     }
   });
 
-  // Build carousel slides from an array of links
   function buildCarousel(links) {
-    carouselLinks.innerHTML = ""; // Clear previous content
+    carouselLinks.innerHTML = "";
     emptyMessage.style.display = links.length === 0 ? "block" : "none";
 
     for (let i = 0; i < links.length; i += linksPerSlide) {
@@ -50,7 +88,6 @@ document.addEventListener("DOMContentLoaded", function () {
     }
   }
 
-  // Add a single slide to carousel
   function addLinksToSlide(links, isActive) {
     const slide = document.createElement("div");
     slide.classList.add("carousel-item");
@@ -83,7 +120,7 @@ document.addEventListener("DOMContentLoaded", function () {
       deleteBtn.style.background = "none";
       deleteBtn.style.border = "none";
       deleteBtn.style.cursor = "pointer";
-      deleteBtn.onclick = () => deleteLink(item);
+      deleteBtn.onclick = () => deleteLink(item.id);
 
       listItem.appendChild(linkElement);
       listItem.appendChild(categoryBadge);
@@ -95,14 +132,20 @@ document.addEventListener("DOMContentLoaded", function () {
     carouselLinks.appendChild(slide);
   }
 
-  // Delete link and update local storage
-  function deleteLink(linkToDelete) {
-    savedLinks = savedLinks.filter(item => item.url !== linkToDelete.url || item.category !== linkToDelete.category);
-    localStorage.setItem("savedLinks", JSON.stringify(savedLinks));
-    buildCarousel(savedLinks);
+  function deleteLink(id) {
+    fetch(`https://api.airtable.com/v0/${BASE_ID}/${TABLE_NAME}/${id}`, {
+      method: "DELETE",
+      headers: {
+        Authorization: `Bearer ${AIRTABLE_API_KEY}`
+      }
+    })
+      .then(() => {
+        savedLinks = savedLinks.filter(item => item.id !== id);
+        buildCarousel(savedLinks);
+      })
+      .catch(error => console.error("Error deleting from Airtable:", error));
   }
 
-  // Show status feedback (optional improvement)
   function showStatus(message) {
     const status = document.createElement("div");
     status.textContent = message;
