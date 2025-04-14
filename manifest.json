@@ -6,9 +6,9 @@
   "action": {
     "default_popup": "save.html",
       "default_icon": {
-      "16": "icon16.png",
-      "48": "icon48.png",
-      "128": "icon128.png"
+      "16": "icon16.jpg",
+      "48": "icon48.jpg",
+      "128": "icon128.jpg"
     }
   },
   "permissions": ["storage", "tabs", "identity"],
@@ -16,9 +16,9 @@
     "https://api.airtable.com/*"
   ],
   "icons": {
-    "16": "icon16.jpeg",
-    "48": "icon48.jpeg",
-    "128": "icon128.jpeg"
+    "16": "icon16.jpg",
+    "48": "icon48.jpg",
+    "128": "icon128.jpg"
   },
   "background": {
     "service_worker": "background.js"
