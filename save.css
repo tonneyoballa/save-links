@@ -3,7 +3,7 @@
 /* Overall popup layout */
 body {
   width: 350px;
-  height: 450px;
+  min-height: 200px;
   margin: 0;
   padding: 0;
   font-family: Arial, sans-serif;
