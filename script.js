@@ -11,11 +11,12 @@ document.addEventListener("DOMContentLoaded", function () {
 
   // Create empty message element
   const emptyMessage = document.createElement("p");
-  emptyMessage.textContent = "No links saved yet. Add one above 👆";
+  emptyMessage.textContent = "No links saved yet. Add one above";
   emptyMessage.style.textAlign = "center";
-  emptyMessage.style.color = "#777";
+  emptyMessage.style.color = "#C70039";
   emptyMessage.style.fontSize = "14px";
   emptyMessage.style.marginTop = "20px";
+  emptyMessage.style.fontFamily = "Baskerville, serif";
   carouselLinks.parentElement.insertBefore(emptyMessage, carouselLinks);
 
   let savedLinks = [];
@@ -62,12 +63,12 @@ document.addEventListener("DOMContentLoaded", function () {
           });
           buildCarousel(savedLinks);
           urlInput.value = "";
-          showToast("✅ Link saved successfully!", "success");
+          showToast(`<svg xmlns='http://www.w3.org/2000/svg' width='14' height='14' fill='white' viewBox='0 0 16 16'><path d='M16 2L6 15l-6-6 2-2 4 4L14 0z'/></svg> Link saved successfully!`, "success");
           setTimeout(() => window.close(), 800);
         })
         .catch(error => {
           console.error("Error saving to Airtable:", error);
-          showToast("❌ Failed to save link.", "error");
+          showToast(`<svg xmlns='http://www.w3.org/2000/svg' width='14' height='14' fill='white' viewBox='0 0 24 24'><path d='M12 0C5.373 0 0 5.373 0 12s5.373 12 12 12 12-5.373 12-12S18.627 0 12 0zm5.656 16.242l-1.414 1.414L12 13.414l-4.242 4.242-1.414-1.414L10.586 12 6.344 7.758l1.414-1.414L12 10.586l4.242-4.242 1.414 1.414L13.414 12l4.242 4.242z'/></svg> Failed to save link.`, "error");
         });
     }
   });
@@ -97,6 +98,7 @@ document.addEventListener("DOMContentLoaded", function () {
       linkElement.href = item.url;
       linkElement.textContent = item.url;
       linkElement.target = "_blank";
+      linkElement.style.fontFamily = "Baskerville, serif";
 
       const deleteBtn = document.createElement("button");
       deleteBtn.innerHTML = `
@@ -135,7 +137,7 @@ document.addEventListener("DOMContentLoaded", function () {
 
   function showToast(message, type) {
     const toast = document.createElement("div");
-    toast.textContent = message;
+    toast.innerHTML = message;
     toast.style.position = "fixed";
     toast.style.bottom = "20px";
     toast.style.left = "50%";
@@ -148,7 +150,7 @@ document.addEventListener("DOMContentLoaded", function () {
     toast.style.boxShadow = "0 4px 8px rgba(0, 0, 0, 0.2)";
     toast.style.zIndex = "9999";
     toast.style.opacity = "0";
-    toast.style.transition = "opacity .015s ease";
+    toast.style.transition = "opacity 0.3s ease";
 
     document.body.appendChild(toast);
     requestAnimationFrame(() => toast.style.opacity = "1");
