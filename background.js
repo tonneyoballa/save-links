@@ -1,40 +1,37 @@
-chrome.runtime.onMessage.addListener((request, sender, sendResponse) => {
-  if (request.action === "save_link") {
+chrome.runtime.onMessage.addListener(function (request, sender, sendResponse) {
+    if (request.action === "save_link") {
+      const url = request.url;
+      saveLinkToGoogleSheets(url, sendResponse);
+      return true; // Will respond asynchronously.
+    }
+  });
+  
+  function saveLinkToGoogleSheets(url, sendResponse) {
     chrome.identity.getAuthToken({ interactive: true }, function (token) {
-      if (chrome.runtime.lastError || !token) {
-        console.error("Auth error:", chrome.runtime.lastError);
-        sendResponse({ success: false, error: "Authentication failed." });
-        return;
-      }
-
-      const spreadsheetId = "1Gk9HIu_t_dtFacS8Ol4D7NRFz_5N0UBZZptqMVA7ebo";
-      const sheetName = "Sheet1";
-      const apiUrl = `https://sheets.googleapis.com/v4/spreadsheets/${spreadsheetId}/values/${sheetName}!A:A:append?valueInputOption=USER_ENTERED`;
-
-      fetch(apiUrl, {
-        method: "POST",
-        headers: {
-          Authorization: "Bearer " + token,
-          "Content-Type": "application/json"
-        },
-        body: JSON.stringify({
-          values: [[request.url]]
+      if (token) {
+        fetch(`https://sheets.googleapis.com/v4/spreadsheets/YOUR_SPREADSHEET_ID/values/Sheet1!A1:append?valueInputOption=USER_ENTERED`, {
+          method: "POST",
+          headers: {
+            Authorization: `Bearer ${token}`,
+            "Content-Type": "application/json"
+          },
+          body: JSON.stringify({
+            values: [[url]]
+          })
         })
-      })
-      .then(response => {
-        if (!response.ok) throw new Error("Failed to save to Google Sheets");
-        return response.json();
-      })
-      .then(data => {
-        sendResponse({ success: true });
-      })
-      .catch(error => {
-        console.error("Google Sheets error:", error);
-        sendResponse({ success: false, error: error.message });
-      });
+          .then(response => response.json())
+          .then(data => {
+            console.log("Link saved to Google Sheets:", data);
+            sendResponse({ success: true });
+          })
+          .catch(error => {
+            console.error("Error saving link to Google Sheets:", error);
+            sendResponse({ success: false });
+          });
+      } else {
+        console.error("Failed to get auth token");
+        sendResponse({ success: false });
+      }
     });
-
-    // Needed for async `sendResponse`
-    return true;
   }
-});
+  
