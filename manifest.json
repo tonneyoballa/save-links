@@ -2,33 +2,24 @@
   "manifest_version": 3,
   "name": "Save Links",
   "version": "1.0",
-  "description": "Save your links to your personal Google Spreadsheet.",
+  "description": "A Chrome extension to save links.",
   "action": {
     "default_popup": "save.html",
-    "default_icon": {
+      "default_icon": {
       "24": "icon24.png",
       "48": "icon48.png",
       "128": "icon128.png"
     }
   },
+  "permissions": ["storage", "tabs", "identity","activeTab","scripting"],
+  "host_permissions": [
+    "https://api.airtable.com/*"
+  ],
   "icons": {
     "24": "icon24.png",
     "48": "icon48.png",
     "128": "icon128.png"
   },
-  "oauth2": {
-    "client_id": "YOUR_CLIENT_ID.apps.googleusercontent.com",
-    "scopes": [
-      "https://www.googleapis.com/auth/spreadsheets"
-    ]
-  },
-  "permissions": [
-    "identity",
-    "storage"
-  ],
-  "host_permissions": [
-    "https://sheets.googleapis.com/*"
-  ],
   "background": {
     "service_worker": "background.js"
   }
