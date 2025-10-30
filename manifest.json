@@ -1,19 +1,21 @@
 {
   "manifest_version": 3,
-  "name": "Save to n8n",
+  "name": "Save Links (sheets)",
   "version": "1.0",
-  "description": "Save links/pages to n8n -> Notion / Google Sheets",
+  "description": "Save links to Google Sheets (and n8n).",
   "permissions": [
+    "identity",
     "contextMenus",
-    "activeTab",
-    "scripting",
-    "storage"
+    "notifications"
   ],
   "host_permissions": [
-    "<all_urls>"
+    "https://docs.google.com/*",
+    "http://localhost:5678/*"
   ],
   "background": {
-    "service_worker": "background.js"
+    "service_worker": "bg.js"
   },
-  "icons": { "24": "icon16.png", "48": "icon48.png", "128": "icon128.png" }
+  "action": {
+    "default_popup": "popup.html"
+  }
 }

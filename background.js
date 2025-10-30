@@ -1,64 +1,65 @@
-// background.js
-// Service worker script for Manifest V3
+chrome.runtime.onMessage.addListener((request, sender, sendResponse) => {
+  if (request.action === "save_link") {
+    const url = request.url;
+    const title = request.title || "";
+    const N8N_WEBHOOK = "http://localhost:5678/webhook-test/save-links";
 
-// Your n8n webhook URL
-const N8N_WEBHOOK_URL = "http://localhost:5678/webhook-test/save-links";
+    // 1️⃣ Send the link to your n8n workflow
+    fetch(N8N_WEBHOOK, {
+      method: "POST",
+      headers: { "Content-Type": "application/json" },
+      body: JSON.stringify({
+        url,
+        title,
+        timestamp: new Date().toISOString(),
+      }),
+    })
+      .then((res) => console.log("✅ Sent to n8n:", res.status))
+      .catch((err) => console.error("❌ n8n webhook error:", err));
 
-// Create context menu when extension is installed or reloaded
-chrome.runtime.onInstalled.addListener(() => {
-  chrome.contextMenus.create({
-    id: "save-to-n8n",
-    title: "Save to n8n",
-    contexts: ["page", "link", "selection"]
-  });
-  console.log("Context menu created: Save to n8n");
+    // 2️⃣ Continue your original Google Sheets logic if you have it
+    if (typeof saveLinkToGoogleSheets === "function") {
+      saveLinkToGoogleSheets(url, sendResponse);
+      return true; // keeps sendResponse active for async call
+    } else {
+      sendResponse({ success: true });
+    }
+  }
 });
 
-// Handle context menu click
-chrome.contextMenus.onClicked.addListener(async (info, tab) => {
-  try {
-    const payload = {
-      title: tab?.title || "",
-      url: info.linkUrl || info.pageUrl || tab?.url || "",
-      selectionText: info.selectionText || "",
-      timestamp: new Date().toISOString()
-    };
-
-    console.log("Sending payload to n8n:", payload);
-
-    const response = await fetch(N8N_WEBHOOK_URL, {
-      method: "POST",
-      headers: {
-        "Content-Type": "application/json"
-      },
-      body: JSON.stringify(payload)
-    });
-
-    const text = await response.text();
-    console.log("n8n response:", text);
-
-    if (response.ok) {
-      await showNotification("✅ Sent to n8n", "Your link was saved successfully.");
-    } else {
-      await showNotification("⚠️ n8n Error", `Status: ${response.status}`);
+// --- Keep your existing Google Sheets function below ---
+function saveLinkToGoogleSheets(url, sendResponse) {
+  chrome.identity.getAuthToken({ interactive: true }, (token) => {
+    if (!token) {
+      console.error("No auth token found");
+      sendResponse({ success: false });
+      return;
     }
 
-  } catch (error) {
-    console.error("Error sending to n8n:", error);
-    await showNotification("❌ Error", error.message);
-  }
-});
+    const SHEET_ID = "YOUR_SHEET_ID"; // replace with your sheet ID
 
-// Helper to show notification (works in MV3)
-async function showNotification(title, message) {
-  try {
-    await chrome.notifications.create({
-      type: "basic",
-      iconUrl: "icon48.png",
-      title,
-      message
-    });
-  } catch (err) {
-    console.warn("Notification error:", err);
-  }
+    fetch(
+      `https://sheets.googleapis.com/v4/spreadsheets/${SHEET_ID}/values/Sheet1!A1:append?valueInputOption=USER_ENTERED`,
+      {
+        method: "POST",
+        headers: {
+          Authorization: `Bearer ${token}`,
+          "Content-Type": "application/json",
+        },
+        body: JSON.stringify({
+          majorDimension: "ROWS",
+          values: [[new Date().toISOString(), url]],
+        }),
+      }
+    )
+      .then((res) => res.json())
+      .then((data) => {
+        console.log("✅ Saved to Google Sheets:", data);
+        sendResponse({ success: true });
+      })
+      .catch((err) => {
+        console.error("❌ Google Sheets save failed:", err);
+        sendResponse({ success: false });
+      });
+  });
 }
