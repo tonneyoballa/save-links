@@ -13,7 +13,7 @@
   },
   "permissions": ["storage", "tabs", "identity","activeTab","scripting"],
   "host_permissions": [
-    "http://localhost:5678/webhook-test/save-links"
+    "https://api.airtable.com/*"
   ],
   "icons": {
     "24": "icon24.png",
