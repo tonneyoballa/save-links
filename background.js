@@ -14,8 +14,8 @@ chrome.runtime.onMessage.addListener((request, sender, sendResponse) => {
         timestamp: new Date().toISOString(),
       }),
     })
-      .then((res) => console.log("✅ Sent to n8n:", res.status))
-      .catch((err) => console.error("❌ n8n webhook error:", err));
+      .then((res) => console.log("Saved:", res.status))
+      .catch((err) => console.error("Failed to Save:", err));
 
     // 2️⃣ Continue your original Google Sheets logic if you have it
     if (typeof saveLinkToGoogleSheets === "function") {
