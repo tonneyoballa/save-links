@@ -1,5 +1,5 @@
 // background.js (service worker)
-const N8N_WEBHOOK_URL = "https://<your-n8n-host>/webhook/your-webhook-path"; // replace
+const N8N_WEBHOOK_URL = "http://localhost:5678/webhook-test/save-links"; // replace
 
 chrome.runtime.onInstalled.addListener(() => {
   chrome.contextMenus.create({
