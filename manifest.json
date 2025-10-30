@@ -1,26 +1,19 @@
 {
   "manifest_version": 3,
-  "name": "Save Links",
+  "name": "Save to n8n",
   "version": "1.0",
-  "description": "A Chrome extension to save links.",
-  "action": {
-    "default_popup": "save.html",
-      "default_icon": {
-      "24": "icon24.png",
-      "48": "icon48.png",
-      "128": "icon128.png"
-    }
-  },
-  "permissions": ["storage", "tabs", "identity","activeTab","scripting"],
-  "host_permissions": [
-    "https://api.airtable.com/*"
+  "description": "Save links/pages to n8n -> Notion / Google Sheets",
+  "permissions": [
+    "contextMenus",
+    "activeTab",
+    "scripting",
+    "storage"
   ],
-  "icons": {
-    "24": "icon24.png",
-    "48": "icon48.png",
-    "128": "icon128.png"
-  },
+  "host_permissions": [
+    "<all_urls>"
+  ],
   "background": {
     "service_worker": "background.js"
-  }
+  },
+  "icons": { "24": "icon16.png", "48": "icon48.png", "128": "icon128.png" }
 }
