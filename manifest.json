@@ -1,19 +1,18 @@
 {
   "manifest_version": 3,
-  "name": "Save Links (sheets)",
+  "name": "Save to n8n",
   "version": "1.0",
-  "description": "Save links to Google Sheets (and n8n).",
+  "description": "Right-click and send a page or link to n8n",
   "permissions": [
     "identity",
     "contextMenus",
     "notifications"
   ],
   "host_permissions": [
-    "https://docs.google.com/*",
     "http://localhost:5678/*"
   ],
   "background": {
-    "service_worker": "bg.js"
+    "service_worker": "background.js"
   },
   "action": {
     "default_popup": "popup.html"
